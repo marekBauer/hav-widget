@@ -25,55 +25,57 @@ export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps>
 };
 
 const autoloadWidget = () => {
-  console.log('autoloadWidget')
-  const targetDiv = document.querySelector<HTMLDivElement>('div[data-widget="redirect-checkbox"]');
-
-  if (!targetDiv) {
-    console.warn('Target div with data-widget="redirect-checkbox" not found');
-    return;
-  }
-
-  const redirectUrl = targetDiv.getAttribute('data-redirect-url') || '';
-  if (!redirectUrl) {
-    console.warn('API endpoint or redirect URL not specified in the target div attributes');
-    return;
-  }
-  console.log(targetDiv)
-
-  let parent = targetDiv?.parentElement;
-  let formFound: HTMLFormElement | null = null;
-
-  while (parent) {
-    if (parent.tagName === 'FORM') {
-      formFound = parent as HTMLFormElement; 
-      break; 
+  const initializeWidget = () => {
+    console.log('autoloadWidget');
+    
+    const targetDiv = document.querySelector<HTMLDivElement>('div[data-widget="redirect-checkbox"]');
+    if (!targetDiv) {
+      console.warn('Target div with data-widget="redirect-checkbox" not found');
+      return;
     }
-    parent = parent.parentElement; 
-  }
 
-  if (!formFound) {
-    alert('Form not found');
-    return
-  } else {
-  }
+    const redirectUrl = targetDiv.getAttribute('data-redirect-url') || '';
+    if (!redirectUrl) {
+      console.warn('Redirect URL not specified in the target div attributes');
+      return;
+    }
+    console.log(targetDiv);
 
-  const emailInput = formFound.querySelector<HTMLInputElement>('input[name="email"]');
+    // Find the parent form element
+    let parent = targetDiv?.parentElement;
+    let formFound: HTMLFormElement | null = null;
+
+    while (parent) {
+      if (parent.tagName === 'FORM') {
+        formFound = parent as HTMLFormElement;
+        break;
+      }
+      parent = parent.parentElement;
+    }
+
+    if (!formFound) {
+      alert('Form not found');
+      return;
+    }
+
+    const emailInput = formFound.querySelector<HTMLInputElement>('input[name="email"]');
     const phoneInput = formFound.querySelector<HTMLInputElement>('input[name="phone"]');
     const email = emailInput?.value || '';
     const phone = phoneInput?.value || '';
 
-    // if (email && name) {
-    //   window.location.href = `${redirectUrl}?email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
-    // } else {
-    //   alert('Please fill in both the name and email fields');
-    // }
+    ReactDOM.render(
+      <RedirectCheckboxComponent redirectUrl={redirectUrl} email={email} phone={phone} />,
+      targetDiv
+    );
+  };
 
-  ReactDOM.render(
-    <RedirectCheckboxComponent redirectUrl={redirectUrl} email={email} phone={phone} />,
-    targetDiv
-  );
+  // Check if the DOM is already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeWidget);
+  } else {
+    initializeWidget();
+  }
 };
 
 autoloadWidget();
-
 (window as any).autoloadWidget = autoloadWidget;
