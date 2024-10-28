@@ -8,7 +8,7 @@ interface RedirectCheckboxComponentProps {
 }
 
 export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps> = ({ redirectUrl, email, phone }) => {
-  const [checkboxLabel, setCheckboxLabel] = useState<string>('Verifikace');
+  const [checkboxLabel] = useState<string>('Verifikace');
 
   console.log(redirectUrl, email, phone)
 
@@ -41,7 +41,6 @@ const autoloadWidget = () => {
     }
     console.log(targetDiv);
 
-    // Find the parent form element
     let parent = targetDiv?.parentElement;
     let formFound: HTMLFormElement | null = null;
 
@@ -78,4 +77,4 @@ const autoloadWidget = () => {
 };
 
 autoloadWidget();
-(window as any).autoloadWidget = autoloadWidget;
+// (window as any).autoloadWidget = autoloadWidget;

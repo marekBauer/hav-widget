@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-     "build": "webpack",
+    "build": "webpack",
     "lint": "eslint .",
     "preview": "vite preview"
   },
