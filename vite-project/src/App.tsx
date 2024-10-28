@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import './App.css'
 
 function App() {
-  const container = document.getElementById("custom-widget")
+  
 
-  console.log(container)
   
   useEffect(()=>{
+    const container = document.getElementById("custom-widget")
     console.log(container)
 
     const script = document.createElement("script")
@@ -19,7 +19,7 @@ function App() {
 
     (container as HTMLElement).appendChild(script)
   
-  },[container])
+  },[])
 
   return (
     <>

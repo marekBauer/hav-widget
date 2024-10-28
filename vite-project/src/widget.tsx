@@ -13,7 +13,7 @@ export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps>
   console.log(redirectUrl, email, phone)
 
   const handleCheckboxClick = () => {
-    //window.location.href = redirectUrl;
+    window.location.href = redirectUrl;
   };
 
   return (
