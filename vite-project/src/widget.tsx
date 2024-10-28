@@ -10,6 +10,7 @@ interface RedirectCheckboxComponentProps {
 export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps> = ({ redirectUrl, email, phone }) => {
   const [checkboxLabel] = useState<string>('Verifikace');
 
+  console.log('checkbox')
   console.log(redirectUrl, email, phone)
 
   const handleCheckboxClick = () => {
@@ -25,9 +26,7 @@ export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps>
 };
 
 const autoloadWidget = () => {
-  const initializeWidget = () => {
     console.log('autoloadWidget');
-    
     const targetDiv = document.querySelector<HTMLDivElement>('div[data-widget="redirect-checkbox"]');
     if (!targetDiv) {
       console.warn('Target div with data-widget="redirect-checkbox" not found');
@@ -62,18 +61,12 @@ const autoloadWidget = () => {
     const email = emailInput?.value || '';
     const phone = phoneInput?.value || '';
 
+    console.log(email, phone)
+
     ReactDOM.render(
       <RedirectCheckboxComponent redirectUrl={redirectUrl} email={email} phone={phone} />,
       targetDiv
     );
-  };
-
-  // Check if the DOM is already loaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeWidget);
-  } else {
-    initializeWidget();
-  }
 };
 
 autoloadWidget();
