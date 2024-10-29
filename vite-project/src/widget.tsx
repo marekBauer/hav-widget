@@ -31,7 +31,7 @@ const autoloadWidget = () => {
   const initializeWidget = () => {
   console.log('autoloadWidget');
   console.log(document)
-  const targetDiv = document.querySelector<HTMLDivElement>('div[data-widget="redirect-checkbox"]');
+  const targetDiv = document.getElementById("custom-widget")
   if (!targetDiv) {
     console.warn('Target div with data-widget="redirect-checkbox" not found');
     return;

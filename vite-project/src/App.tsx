@@ -35,21 +35,21 @@ function App() {
   return (
     <>
      <form className="formm">
-    <label>
-      Phone:
-      <input type="text" name="phone" value="123456789"/>
-    </label>
-    <label>
-      Email:
-      <input type="email" name="email" value="test@email.cz" />
-    </label>
+      <label>
+        Phone:
+        <input type="text" name="phone" value="123456789"/>
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" value="test@email.cz" />
+      </label>
     
-    <div 
-      id="custom-widget"
-      data-widget="redirect-checkbox" 
-      data-redirect-url="https://www.seznam.cz/">
-    </div>
-  </form>
+      <div 
+        id="custom-widget"
+        data-widget="redirect-checkbox" 
+        data-redirect-url="https://www.seznam.cz/">
+      </div>
+    </form>
     </>
   )
 }
