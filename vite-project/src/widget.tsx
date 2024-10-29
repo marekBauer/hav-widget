@@ -153,13 +153,13 @@ const autoloadWidget = () => {
     const email = emailInput?.value || '';
     const phone = phoneInput?.value || '';
 
-    const siteUrl = encodeURIComponent(window.location.href.split('?')[0]);
-    const referrer = encodeURIComponent(document.referrer);
+    // const siteUrl = encodeURIComponent(window.location.href.split('?')[0]);
+    // const referrer = encodeURIComponent(document.referrer);
     const cookieUuid = getOrCreateCookie('hardageverification_session', 3600);
 
     ReactDOM.render(
       <RedirectCheckboxComponent
-        redirectUrl={`https://loc82.hav-backend.com/get-iframe/${apiKey}?site_url=${siteUrl}&referrer=${referrer}&uuid=${cookieUuid}`}
+        redirectUrl={`https://loc82.hav-backend.com/verify?call_api_key=${apiKey}&call_verify_id=${2024252536}&call_verify_uid=${cookieUuid}`}
         email={email}
         phone={phone}
       />,
