@@ -44,10 +44,7 @@ function App() {
         <input type="email" name="email" value="test@email.cz" />
       </label>
     
-      <div 
-        id="custom-widget"
-        data-widget="redirect-checkbox" 
-        data-redirect-url="https://www.seznam.cz/">
+      <div className="hav" data-apiKey="XyQhRtZu">
       </div>
     </form>
     </>
