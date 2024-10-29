@@ -10,6 +10,8 @@ const Container = styled.div`
   padding: 10px;
   max-width: 300px;
   font-family: Arial, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const Checkbox = styled.input.attrs({ type: 'checkbox' })`
@@ -174,3 +176,16 @@ const autoloadWidget = () => {
 };
 
 autoloadWidget();
+
+const eventSource = new EventSource('/events');
+
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Received data:', data);
+  // Handle the data as needed
+};
+
+eventSource.onerror = (error) => {
+  console.error('SSE error:', error);
+  eventSource.close();
+};
