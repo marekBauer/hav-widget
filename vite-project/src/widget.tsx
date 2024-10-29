@@ -1,5 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px dashed #b1b1b1;
+  padding: 10px;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+`;
+
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+`;
+
+const Text = styled.div`
+  flex: 1;
+`;
+
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+  color: #000;
+`;
+
+const Subtitle = styled.div`
+  font-size: 12px;
+  color: #777;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+`;
+
+const LogoCheck = styled.div`
+  color: green;
+  font-size: 20px;
+  margin-left: -5px;
+`;
 
 interface RedirectCheckboxComponentProps {
   redirectUrl: string;
@@ -10,8 +55,6 @@ interface RedirectCheckboxComponentProps {
 export const RedirectCheckboxComponent: React.FC<
   RedirectCheckboxComponentProps
 > = ({ redirectUrl, email, phone }) => {
-  const [checkboxLabel] = useState<string>('Verifikace');
-
   console.log('checkbox');
   console.log(redirectUrl, email, phone);
 
@@ -22,12 +65,53 @@ export const RedirectCheckboxComponent: React.FC<
   };
 
   return (
-    <label>
-      <input type='checkbox' onChange={handleCheckboxClick} />
-      {checkboxLabel}
-    </label>
+    <Container>
+      <Checkbox onChange={handleCheckboxClick} />
+      <Text>
+        <Title>Ověřit můj věk</Title>
+        <Subtitle>Podmínky použití – Zajišťuje ...</Subtitle>
+      </Text>
+      <Logo>
+        A<LogoCheck>✓</LogoCheck>
+      </Logo>
+    </Container>
   );
 };
+
+function getOrCreateCookie(name: string, maxAge: number) {
+  let cookieValue = getCookie(name);
+  if (!cookieValue) {
+    cookieValue = generateUuid();
+    document.cookie = `${name}=${cookieValue}; max-age=${maxAge}; path=/; samesite=none; secure=true`;
+    console.log(
+      `HardAgeVerification: Vytvořena nová cookie '${name}' s hodnotou:`,
+      cookieValue
+    );
+  } else {
+    console.log(
+      `HardAgeVerification: Načtena existující cookie '${name}' s hodnotou:`,
+      cookieValue
+    );
+  }
+  return cookieValue;
+}
+
+function getCookie(name: string) {
+  const cookies = document.cookie.split('; ');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName === name) return cookieValue;
+  }
+  return null;
+}
+
+function generateUuid() {
+  const uuid = 'xxxx-xxxx-xxxx-xxxx'.replace(/[x]/g, () =>
+    ((Math.random() * 16) | 0).toString(16)
+  );
+  console.log('HardAgeVerification: Generováno UUID:', uuid);
+  return uuid;
+}
 
 const autoloadWidget = () => {
   const initializeWidget = () => {
@@ -80,9 +164,13 @@ const autoloadWidget = () => {
     const email = emailInput?.value || '';
     const phone = phoneInput?.value || '';
 
+    const siteUrl = encodeURIComponent(window.location.href.split('?')[0]);
+    const referrer = encodeURIComponent(document.referrer);
+    const cookieUuid = getOrCreateCookie('hardageverification_session', 3600);
+
     ReactDOM.render(
       <RedirectCheckboxComponent
-        redirectUrl={'https://www.seznam.cz/'}
+        redirectUrl={`https://loc82.hav-backend.com/get-iframe/${apiKey}?site_url=${siteUrl}&referrer=${referrer}&uuid=${cookieUuid}`}
         email={email}
         phone={phone}
       />,
