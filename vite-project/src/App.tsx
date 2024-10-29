@@ -36,7 +36,6 @@ function App() {
     <div 
       id="custom-widget"
       data-widget="redirect-checkbox" 
-      data-api-endpoint="https://api.example.com/endpoint" 
       data-redirect-url="https://www.seznam.cz/">
     </div>
   </form>
