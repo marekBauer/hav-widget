@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 interface RedirectCheckboxComponentProps {
   redirectUrl: string;
@@ -96,13 +97,12 @@ const autoloadWidget = () => {
         iframeDoc.body.appendChild(iframeRoot);
 
         // Render the React component in the iframe's root
-        ReactDOM.render(
+        createRoot(iframeRoot).render(
           <RedirectCheckboxComponent
             redirectUrl={'https://www.seznam.cz/'}
             email={email}
             phone={phone}
-          />,
-          targetDiv
+          />
         );
       }
     };
