@@ -52,6 +52,7 @@ const autoloadWidget = () => {
     }
     parent = parent.parentElement;
   }
+  console.log(formFound)
 
   if (!formFound) {
     alert('Form not found');

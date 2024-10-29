@@ -3,21 +3,21 @@ import React, { useEffect } from 'react';
 import './App.css'
 
 function App() {
-  
-
-  
   useEffect(()=>{
     const container = document.getElementById("custom-widget")
     console.log(container)
 
     const script = document.createElement("script")
     script.src = "https://marekbauer.github.io/hav-widget/vite-project/dist/widget.bundle.js"
+    script.type = "text/javascript";
+    script.async = false; 
   
     if(!container){
       return;
     }
 
-    (container as HTMLElement).appendChild(script)
+    document.head.appendChild(script);
+    // (container as HTMLElement).appendChild(script)
   
   },[])
 
