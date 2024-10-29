@@ -28,7 +28,9 @@ export const RedirectCheckboxComponent: React.FC<RedirectCheckboxComponentProps>
 };
 
 const autoloadWidget = () => {
+  const initializeWidget = () => {
   console.log('autoloadWidget');
+  console.log(document)
   const targetDiv = document.querySelector<HTMLDivElement>('div[data-widget="redirect-checkbox"]');
   if (!targetDiv) {
     console.warn('Target div with data-widget="redirect-checkbox" not found');
@@ -70,6 +72,15 @@ const autoloadWidget = () => {
     <RedirectCheckboxComponent redirectUrl={redirectUrl} email={email} phone={phone} />,
     targetDiv
   );
+  }
+
+  if (document.readyState === 'loading') {
+    console.log('loading')
+    document.addEventListener('DOMContentLoaded', initializeWidget);
+  } else {
+    console.log('loaded')
+    initializeWidget();
+  }
 };
 
 autoloadWidget();
