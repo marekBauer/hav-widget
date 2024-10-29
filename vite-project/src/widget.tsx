@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 const Container = styled.div`
   display: flex;
@@ -40,12 +41,6 @@ const Logo = styled.div`
   color: #000;
 `;
 
-const LogoCheck = styled.div`
-  color: green;
-  font-size: 20px;
-  margin-left: -5px;
-`;
-
 interface RedirectCheckboxComponentProps {
   redirectUrl: string;
   email?: string;
@@ -71,17 +66,15 @@ export const RedirectCheckboxComponent: React.FC<
         <Title>Ověřit můj věk</Title>
         <Subtitle>Podmínky použití – Zajišťuje ...</Subtitle>
       </Text>
-      <Logo>
-        A<LogoCheck>✓</LogoCheck>
-      </Logo>
+      <Logo>FJ</Logo>
     </Container>
   );
 };
 
-function getOrCreateCookie(name: string, maxAge: number) {
+const getOrCreateCookie = (name: string, maxAge: number) => {
   let cookieValue = getCookie(name);
   if (!cookieValue) {
-    cookieValue = generateUuid();
+    cookieValue = uuidv4();
     document.cookie = `${name}=${cookieValue}; max-age=${maxAge}; path=/; samesite=none; secure=true`;
     console.log(
       `HardAgeVerification: Vytvořena nová cookie '${name}' s hodnotou:`,
@@ -94,29 +87,22 @@ function getOrCreateCookie(name: string, maxAge: number) {
     );
   }
   return cookieValue;
-}
+};
 
-function getCookie(name: string) {
+const getCookie = (name: string) => {
   const cookies = document.cookie.split('; ');
   for (const cookie of cookies) {
     const [cookieName, cookieValue] = cookie.split('=');
     if (cookieName === name) return cookieValue;
   }
   return null;
-}
-
-function generateUuid() {
-  const uuid = 'xxxx-xxxx-xxxx-xxxx'.replace(/[x]/g, () =>
-    ((Math.random() * 16) | 0).toString(16)
-  );
-  console.log('HardAgeVerification: Generováno UUID:', uuid);
-  return uuid;
-}
+};
 
 const autoloadWidget = () => {
   const initializeWidget = () => {
     console.log('autoloadWidget');
     console.log(document);
+
     const targetDiv = document.querySelector('.hav');
     if (!targetDiv) {
       setTimeout(initializeWidget, 100);
@@ -126,6 +112,7 @@ const autoloadWidget = () => {
     console.log(targetDiv);
 
     const apiKey = targetDiv.getAttribute('data-apiKey') || '';
+
     if (!apiKey) {
       console.warn('API key not found');
       return;
