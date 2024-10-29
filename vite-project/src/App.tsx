@@ -17,7 +17,7 @@ function App() {
     }
 
     document.head.appendChild(script);
-    // (container as HTMLElement).appendChild(script)
+     (container as HTMLElement).appendChild(script)
   
   },[])
 
