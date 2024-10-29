@@ -32,9 +32,10 @@ export const RedirectCheckboxComponent: React.FC<
 const autoloadWidget = () => {
   const initializeWidget = () => {
     console.log('autoloadWidget');
-
+    console.log(document);
     const targetDiv = document.querySelector('.hav');
     if (!targetDiv) {
+      setTimeout(initializeWidget, 100);
       console.warn('Target div not found');
       return;
     }
