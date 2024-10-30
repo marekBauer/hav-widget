@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Checkbox, Container, Logo, Subtitle, Title, Text } from './widget.styled';
 import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 interface RedirectCheckboxComponentProps {
   redirectUrl: string;
