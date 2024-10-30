@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { Checkbox, Container, Logo, Subtitle, Title, Text } from './widget.styled';
+import { Checkbox, Container, Logo, Subtitle, Title, Text, HiddenInput } from './widget.styled';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
 
-interface RedirectCheckboxComponentProps {
+interface HardAgeVerificationProps {
   redirectUrl: string;
   email?: string;
   phone?: string;
+  hiddenInputValue?: string;
 }
 
 const COOKIE_AGE_SECONDS = 3600;
 
-export const RedirectCheckboxComponent: React.FC<
-  RedirectCheckboxComponentProps
-> = ({ redirectUrl }) => {
+export const HardAgeVerification: React.FC<
+  HardAgeVerificationProps
+> = ({ redirectUrl, hiddenInputValue }) => {
   const { t } = useTranslation();
 
   const handleClick = () => {
@@ -30,6 +31,7 @@ export const RedirectCheckboxComponent: React.FC<
         <Subtitle>{t('verifySubtitle')}</Subtitle>
       </Text>
       <Logo>FJ</Logo>
+      <HiddenInput value={hiddenInputValue}/>
     </Container>
   );
 };
@@ -106,7 +108,7 @@ const loadWidget = () => {
     const cookieUuid = getOrCreateCookie('hav_verification_session');
     
     ReactDOM.render(
-      <RedirectCheckboxComponent
+      <HardAgeVerification
         redirectUrl={`https://loc82.hav-backend.com/verify?call_api_key=${apiKey}&call_verify_id=${2024252536}&call_verify_uid=${cookieUuid}`}
       />,
       targetDiv

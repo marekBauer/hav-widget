@@ -5,7 +5,7 @@ export const Container = styled.div`
   align-items: center;
   border: 1px dashed #b1b1b1;
   padding: 10px;
-  max-width: 300px;
+  max-width: 500px;
   font-family: Arial, sans-serif;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -40,3 +40,16 @@ export const Logo = styled.div`
   font-weight: bold;
   color: #000;
 `;
+
+export const HiddenInput = styled.input.attrs((props) => ({
+  type: 'hidden',
+  name: 'hav-uuid',
+  id: 'hav-uuid',
+  value: props.value,
+}))`
+  resize: none;
+  display: none;
+`;
+
+
+
