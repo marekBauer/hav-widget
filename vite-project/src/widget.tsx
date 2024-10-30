@@ -15,7 +15,7 @@ const COOKIE_AGE_SECONDS = 3600;
 export const RedirectCheckboxComponent: React.FC<
   RedirectCheckboxComponentProps
 > = ({ redirectUrl }) => {
-  const { t } = useTranslation('widget');
+  const { t } = useTranslation();
 
   const handleClick = () => {
     window.location.href = redirectUrl;
