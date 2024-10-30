@@ -16,6 +16,7 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   width: 24px;
   height: 24px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 export const Text = styled.div`

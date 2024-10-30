@@ -1,6 +1,8 @@
 import React from 'react';
 
 import './App.css';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { HardAgeVerification } from './widget';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         </label>
 
         <div className='hav' data-apiKey='XyQhRtZu'></div>
+        {/* Use this in DEV to test the component */}
+        {/* <HardAgeVerification redirectUrl='https://www.seznam.cz/' /> */}
       </form>
     </>
   );

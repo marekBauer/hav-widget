@@ -25,7 +25,7 @@ export const HardAgeVerification: React.FC<
 
   return (
     <Container onClick={handleClick}>
-      <Checkbox />
+      <Checkbox onClick={(e)  => e.preventDefault()}/>
       <Text>
         <Title>{t('verifyTitle')}</Title>
         <Subtitle>{t('verifySubtitle')}</Subtitle>
