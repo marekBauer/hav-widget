@@ -28,10 +28,10 @@ interface VerificationConfirmed {
   target: "widget";
 }
 
-const COOKIE_KEY_ID = process.env.COOKIE_KEY_ID || "";
-const COOKIE_KEY_UUID = process.env.COOKIE_KEY_UUID || "";
-const COOKIE_AGE_SECONDS = Number(process.env.COOKIE_AGE_SECONDS) || 0;
-const SOCKET_SERVER_URL = process.env.SOCKET_SERVER_URL || "";
+const COOKIE_KEY_ID = "age_proof_local_id";
+const COOKIE_KEY_UUID = "age_proof_local_uid";
+const COOKIE_AGE_SECONDS = 3600;
+const SOCKET_SERVER_URL = "http://localhost:5555";
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   redirectUrl,
@@ -132,7 +132,7 @@ const loadWidget = () => {
       return;
     }
 
-    // GET data from the form the targetDiv is located in
+    // GET data from the form the target div is located in
     // let parent = targetDiv?.parentElement;
     // let formFound: HTMLFormElement | null = null;
 
