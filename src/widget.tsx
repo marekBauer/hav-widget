@@ -48,7 +48,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
 
   const handleClick = () => {
     if (!clientVerified) {
-      window.location.href = redirectUrl;
+      window.open(redirectUrl, "_blank");
     }
   };
 
