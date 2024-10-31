@@ -73,7 +73,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   }, []);
 
   return (
-    <Container onClick={handleClick}>
+    <Container onClick={handleClick} verified={clientVerified}>
       <Checkbox onClick={(e) => e.preventDefault()} checked={clientVerified} />
       <Text>
         <Title>{t("verifyTitle")}</Title>

@@ -1,18 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px dashed #b1b1b1;
-  padding: 10px;
-  max-width: 500px;
-  font-family: Arial, sans-serif;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
+export const Container = styled.div<{
+  verified: boolean;
+}>`
+  ${({ verified }) => css`
+    display: flex;
+    align-items: center;
+    border: 1px dashed black;
+    padding: 10px;
+    max-width: 500px;
+    font-family: Arial, sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    ${verified &&
+    css`
+      background-color: #00ff00;
+    `}
+  `}
 `;
 
-export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   width: 24px;
   height: 24px;
   margin-right: 10px;
@@ -43,14 +51,11 @@ export const Logo = styled.div`
 `;
 
 export const HiddenInput = styled.input.attrs((props) => ({
-  type: 'hidden',
-  name: 'hav-uuid',
-  id: 'hav-uuid',
+  type: "hidden",
+  name: "hav-uuid",
+  id: "hav-uuid",
   value: props.value,
 }))`
   resize: none;
   display: none;
 `;
-
-
-
