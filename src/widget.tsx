@@ -31,7 +31,8 @@ interface VerificationConfirmed {
 const COOKIE_KEY_ID = "ageproof_local_id";
 const COOKIE_KEY_UUID = "ageproof_local_uuid";
 const COOKIE_AGE_SECONDS = 3600;
-const SOCKET_SERVER_URL = "http://localhost:5555";
+const SOCKET_SERVER_URL =
+  "https://monkfish-app-2-qqi8t.ondigitalocean.app/:5555";
 const TARGET_DIV_SEARCH_MAX_ATTEMPTS = 20;
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
@@ -44,9 +45,6 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   // TODO on init get info if the client was already verified from socket server
   const [clientVerified, setClientVerified] = useState<boolean>(false);
   const [hiddenInputValue, setHiddenInputValue] = useState<string>("");
-
-  // const cookieId = useMemo(() => getCookie(COOKIE_KEY_UUID),[])
-  // console.log(cookieId)
 
   const handleClick = () => {
     if (!clientVerified) {
