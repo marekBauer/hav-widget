@@ -32,6 +32,7 @@ const COOKIE_KEY_ID = "age_proof_local_id";
 const COOKIE_KEY_UUID = "age_proof_local_uid";
 const COOKIE_AGE_SECONDS = 3600;
 const SOCKET_SERVER_URL = "http://localhost:5555";
+const TARGET_DIV_SEARCH_MAX_ATTEMPTS = 20;
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   redirectUrl,
@@ -117,11 +118,15 @@ const getCookie = (name: string) => {
 };
 
 const loadWidget = () => {
+  let initCount = 0;
   const initializeWidget = () => {
-    const targetDiv = document.querySelector(".hav");
+    initCount++;
+    const targetDiv = document.querySelector(".ageproof-cz");
     if (!targetDiv) {
-      setTimeout(initializeWidget, 100);
       console.warn("Target div not found");
+      if (initCount <= TARGET_DIV_SEARCH_MAX_ATTEMPTS) {
+        setTimeout(initializeWidget, 100);
+      }
       return;
     }
 

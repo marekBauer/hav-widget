@@ -13,6 +13,7 @@ export const Container = styled.div<{
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: pointer;
+
     ${verified &&
     css`
       background-color: #00ff00;
@@ -52,8 +53,8 @@ export const Logo = styled.div`
 
 export const HiddenInput = styled.input.attrs((props) => ({
   type: "hidden",
-  name: "hav-uuid",
-  id: "hav-uuid",
+  name: "ageproof-uid",
+  id: "ageproof-uid",
   value: props.value,
 }))`
   resize: none;

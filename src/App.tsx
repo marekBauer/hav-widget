@@ -17,7 +17,7 @@ function App() {
           <input type="email" name="email" value="test@email.cz" />
         </label>
 
-        <div className="hav" data-apikey="A3SVWCBN"></div>
+        <div className="ageproof-cz" data-apikey="A3SVWCBN"></div>
         {/* Use this in DEV to test the component */}
         {/* <HardAgeVerification
           redirectUrl="https://www.seznam.cz/"
