@@ -1,6 +1,6 @@
-# Hard age verification(HAV) standalone widget component
+# Hard age verification(HAV) - standalone widget component
 
-This project server as standalone widget component that could be imported within any form to verify customer's age
+This project serves as a standalone widget component that can be imported into any form to verify a customer's age. 
 
 Complete documentation is available at: ...
 
@@ -13,12 +13,11 @@ Complete documentation is available at: ...
 
 ## DEV 
 
-For development purposes is created test component `App.tsx`. It contains basic form with include `<div className="ageproof-cz" data-apikey="A3SVWCBN"></div>` element and 
-`<script src="https://marekbauer.github.io/hav-widget/dist/widget.bundle.js" defer></script>` included in `index.html`. Widget component is bundled using webpack and pushed to the Github repository, where it is deployed via GitHub Pages. 
+For development purposes, a test component App.tsx is provided. It includes a basic form containing the element <div className="ageproof-cz" data-apikey="A3SVWCBN"></div> and the script <script src="https://marekbauer.github.io/hav-widget/dist/widget.bundle.js" defer></script> in index.html. The widget component is bundled using Webpack and pushed to the GitHub repository, where it is deployed via GitHub Pages.
 
 Another way to test only the component itself is to include it directly from the `widget.tsx`. 
 
 1. Create bundle
 ```npm run build```
-2. Run eslint
+2. Run ESlint
 ```npm run lint```
