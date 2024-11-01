@@ -20,14 +20,15 @@ interface VerificationConfirmed {
   isAdult: boolean;
 }
 
-const COOKIE_KEY_ID = import.meta.env.VITE_COOKIE_KEY_ID;
-const COOKIE_KEY_UUID = import.meta.env.VITE_COOKIE_KEY_UUID;
-const COOKIE_AGE_SECONDS = import.meta.env.VITE_COOKIE_AGE_SECONDS;
-const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_SERVER_URL;
+const COOKIE_KEY_ID = process.env.VITE_COOKIE_KEY_ID || "";
+const COOKIE_KEY_UUID = process.env.VITE_COOKIE_KEY_UUID || "";
+const COOKIE_AGE_SECONDS = Number(process.env.VITE_COOKIE_AGE_SECONDS);
+const SOCKET_SERVER_URL = process.env.VITE_SOCKET_SERVER_URL || "";
 // const SOCKET_SERVER_URL = "http://localhost:5555";
-const TARGET_DIV_SEARCH_MAX_ATTEMPTS = import.meta.env
-  .VITE_TARGET_DIV_SEARCH_MAX_ATTEMPTS;
-const SOCKET_AUTH_TOKEN = import.meta.env.VITE_SOCKET_AUTH_TOKEN;
+const TARGET_DIV_SEARCH_MAX_ATTEMPTS = Number(
+  process.env.VITE_TARGET_DIV_SEARCH_MAX_ATTEMPTS,
+);
+const SOCKET_AUTH_TOKEN = process.env.VITE_SOCKET_AUTH_TOKEN || "";
 
 interface HardAgeVerificationProps {
   redirectUrl: string;
