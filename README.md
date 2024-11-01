@@ -13,7 +13,7 @@ Complete documentation is available at: ...
 
 ## DEV 
 
-For development purposes, a test component App.tsx is provided. It includes a basic form containing the element <div className="ageproof-cz" data-apikey="A3SVWCBN"></div> and the script <script src="https://marekbauer.github.io/hav-widget/dist/widget.bundle.js" defer></script> in index.html. The widget component is bundled using Webpack and pushed to the GitHub repository, where it is deployed via GitHub Pages.
+For development purposes, a test component `App.tsx` is provided. It includes a basic form containing the element `<div className="ageproof-cz" data-apikey="A3SVWCBN"></div>` and the script `<script src="https://marekbauer.github.io/hav-widget/dist/widget.bundle.js" defer></script>` in index.html. The widget component is bundled using Webpack and pushed to the GitHub repository, where it is deployed via GitHub Pages.
 
 Another way to test only the component itself is to include it directly from the `widget.tsx`. 
 
