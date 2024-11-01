@@ -23,13 +23,13 @@ interface HardAgeVerificationProps {
 }
 
 interface VerificationConfirmed {
-  uid: string;
+  verifyId: string;
+  verifyUuid: string;
   isAdult: boolean;
-  target: "widget";
 }
 
-const COOKIE_KEY_ID = "age_proof_local_id";
-const COOKIE_KEY_UUID = "age_proof_local_uid";
+const COOKIE_KEY_ID = "ageproof_local_id";
+const COOKIE_KEY_UUID = "ageproof_local_uuid";
 const COOKIE_AGE_SECONDS = 3600;
 const SOCKET_SERVER_URL = "http://localhost:5555";
 const TARGET_DIV_SEARCH_MAX_ATTEMPTS = 20;
@@ -40,6 +40,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   verifyUuid,
 }) => {
   const { t } = useTranslation();
+
   // TODO on init get info if the client was already verified from socket server
   const [clientVerified, setClientVerified] = useState<boolean>(false);
   const [hiddenInputValue, setHiddenInputValue] = useState<string>("");
@@ -56,22 +57,23 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   useEffect(() => {
     const socket: Socket = io(SOCKET_SERVER_URL, {
       query: {
-        userId: verifyId,
+        verifyId,
       },
     });
 
-    socket.on("verification-confirmed", (response: VerificationConfirmed) => {
-      console.log("Verification confirmed:", response);
-      if (verifyUuid === response.uid) {
+    socket.on("verification-result", (result: VerificationConfirmed) => {
+      console.log("Verification result:", result);
+
+      if (verifyUuid === result.verifyUuid) {
         setClientVerified(true);
-        setHiddenInputValue(response.uid);
+        setHiddenInputValue(result.verifyUuid);
       }
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [verifyId, verifyUuid]);
 
   return (
     <Container onClick={handleClick} verified={clientVerified}>
@@ -119,6 +121,7 @@ const getCookie = (name: string) => {
 
 const loadWidget = () => {
   let initCount = 0;
+
   const initializeWidget = () => {
     initCount++;
     const targetDiv = document.querySelector(".ageproof-cz");
@@ -168,7 +171,7 @@ const loadWidget = () => {
 
     ReactDOM.render(
       <HardAgeVerification
-        redirectUrl={`https://loc82.hav-backend.com/verify?api_key=${apiKey}&verify_id=${cookieVerifyId}&verify_uid=${cookieVerifyUuid}`}
+        redirectUrl={`https://loc82.hav-backend.com/verify?apiKey=${apiKey}&verifyId=${cookieVerifyId}&verifyUuid=${cookieVerifyUuid}`}
         verifyId={cookieVerifyId}
         verifyUuid={cookieVerifyUuid}
       />,

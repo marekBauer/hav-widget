@@ -53,8 +53,8 @@ export const Logo = styled.div`
 
 export const HiddenInput = styled.input.attrs((props) => ({
   type: "hidden",
-  name: "ageproof-uid",
-  id: "ageproof-uid",
+  name: "ageproof-uuid",
+  id: "ageproof-uuid",
   value: props.value,
 }))`
   resize: none;
