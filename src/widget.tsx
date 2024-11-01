@@ -14,14 +14,6 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import { io, Socket } from "socket.io-client";
 
-interface HardAgeVerificationProps {
-  redirectUrl: string;
-  verifyId: string;
-  verifyUuid: string;
-  email?: string;
-  phone?: string;
-}
-
 interface VerificationConfirmed {
   verifyId: string;
   verifyUuid: string;
@@ -33,7 +25,17 @@ const COOKIE_KEY_UUID = "ageproof_local_uuid";
 const COOKIE_AGE_SECONDS = 3600;
 const SOCKET_SERVER_URL =
   "https://monkfish-app-2-qqi8t.ondigitalocean.app:5555";
+// const SOCKET_SERVER_URL = "http://localhost:5555";
 const TARGET_DIV_SEARCH_MAX_ATTEMPTS = 20;
+const SOCKET_AUTH_TOKEN = "a7d1a186449d";
+
+interface HardAgeVerificationProps {
+  redirectUrl: string;
+  verifyId: string;
+  verifyUuid: string;
+  email?: string;
+  phone?: string;
+}
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   redirectUrl,
@@ -56,6 +58,9 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
     const socket: Socket = io(SOCKET_SERVER_URL, {
       query: {
         verifyId,
+      },
+      auth: {
+        token: SOCKET_AUTH_TOKEN,
       },
     });
 
