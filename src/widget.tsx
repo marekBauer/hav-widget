@@ -20,14 +20,14 @@ interface VerificationConfirmed {
   isAdult: boolean;
 }
 
-const COOKIE_KEY_ID = "ageproof_local_id";
-const COOKIE_KEY_UUID = "ageproof_local_uuid";
-const COOKIE_AGE_SECONDS = 3600;
-const SOCKET_SERVER_URL =
-  "https://monkfish-app-2-qqi8t.ondigitalocean.app:5555";
+const COOKIE_KEY_ID = import.meta.env.COOKIE_KEY_ID;
+const COOKIE_KEY_UUID = import.meta.env.COOKIE_KEY_UUID;
+const COOKIE_AGE_SECONDS = import.meta.env.COOKIE_AGE_SECONDS;
+const SOCKET_SERVER_URL = import.meta.env.SOCKET_SERVER_URL;
 // const SOCKET_SERVER_URL = "http://localhost:5555";
-const TARGET_DIV_SEARCH_MAX_ATTEMPTS = 20;
-const SOCKET_AUTH_TOKEN = "a7d1a186449d";
+const TARGET_DIV_SEARCH_MAX_ATTEMPTS = import.meta.env
+  .TARGET_DIV_SEARCH_MAX_ATTEMPTS;
+const SOCKET_AUTH_TOKEN = import.meta.env.SOCKET_AUTH_TOKEN;
 
 interface HardAgeVerificationProps {
   redirectUrl: string;
