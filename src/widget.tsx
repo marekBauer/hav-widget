@@ -168,9 +168,8 @@ const createCookie = (name: string, cookieValue: string, maxAge: number) => {
 };
 
 const initializeVerification = async () => {
-  // const verifyUuid = getOrCreateCookie(COOKIE_KEY_UUID);
-
   try {
+    const currentOrigin = window.location.origin;
     const response = await fetch(
       `https://cors-anywhere.herokuapp.com/${VITE_VERIFICATION_SERVER_URL}/api/client/init`,
 
@@ -179,7 +178,7 @@ const initializeVerification = async () => {
         headers: {
           "Content-Type": "application/json",
           "X-API-KEY": `AGEPROOFKEY`,
-          Origin: "http://localhost:5173",
+          Origin: currentOrigin,
         },
       },
     );
@@ -198,6 +197,7 @@ const initializeVerification = async () => {
 
 const verifyCookie = async (cookieID: string) => {
   try {
+    const currentOrigin = window.location.origin;
     const response = await fetch(
       `https://cors-anywhere.herokuapp.com/${VITE_VERIFICATION_SERVER_URL}/api/client/verify-cookie?ageproof-visit-cookie=${cookieID}`,
       {
@@ -205,7 +205,7 @@ const verifyCookie = async (cookieID: string) => {
         headers: {
           "Content-Type": "application/json",
           "X-API-KEY": `AGEPROOFKEY`,
-          Origin: "http://localhost:5173",
+          Origin: currentOrigin,
         },
       },
     );
