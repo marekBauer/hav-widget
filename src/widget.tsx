@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import {
   Checkbox,
   Container,
@@ -18,7 +18,6 @@ interface VerificationConfirmedResponse {
   verifyId: string;
   verifyUuid: string;
   isAdult: boolean;
-  visitCookieId: string;
 }
 
 interface InitVerificationResponse {
@@ -44,7 +43,6 @@ interface VerifyCookieResponse {
 const COOKIE_KEY_VISIT_ID = process.env.VITE_COOKIE_KEY_VISIT_ID || "";
 const COOKIE_AGE_SECONDS = Number(process.env.VITE_COOKIE_AGE_SECONDS);
 const SOCKET_SERVER_URL = process.env.VITE_SOCKET_SERVER_URL || "";
-// const SOCKET_SERVER_URL = "http://localhost:5555";
 const TARGET_DIV_SEARCH_MAX_ATTEMPTS = Number(
   process.env.VITE_TARGET_DIV_SEARCH_MAX_ATTEMPTS,
 );
@@ -58,17 +56,20 @@ interface HardAgeVerificationProps {
   verifyUuid: string;
   email?: string;
   phone?: string;
+  isVerified?: boolean;
+  isAdult?: boolean;
 }
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   redirectUrl,
   verifyId,
   verifyUuid,
+  isVerified,
+  isAdult,
 }) => {
   const { t } = useTranslation();
 
-  // TODO on init get info if the client was already verified from socket server
-  const [clientVerified, setClientVerified] = useState<boolean>(false);
+  const [clientVerified, setClientVerified] = useState<boolean>(!!isVerified);
   const [hiddenInputValue, setHiddenInputValue] = useState<string>("");
 
   const handleClick = () => {
@@ -76,14 +77,14 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
       window.open(redirectUrl, "_blank");
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      await initializeVerification();
-      await verifyCookie("1df13426a8e9ef65b58b622aab3ad094-1730798576000");
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await initializeVerification();
+  //     await verifyCookie("1df13426a8e9ef65b58b622aab3ad094-1730798576000");
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const socket: Socket = io(SOCKET_SERVER_URL, {
@@ -101,11 +102,6 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
         console.log("Verification result:", result);
 
         if (verifyUuid === result.verifyUuid) {
-          createCookie(
-            COOKIE_KEY_VISIT_ID,
-            result.visitCookieId || "",
-            COOKIE_AGE_SECONDS,
-          );
           setClientVerified(true);
           setHiddenInputValue(result.verifyUuid);
         }
@@ -119,10 +115,16 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
 
   return (
     <Container onClick={handleClick} verified={clientVerified}>
-      <Checkbox onClick={(e) => e.preventDefault()} checked={clientVerified} />
+      <Checkbox
+        onClick={(e) => e.preventDefault()}
+        checked={clientVerified}
+        onChange={(e) => e.preventDefault()}
+      />
       <Text>
         <Title>{t("verifyTitle")}</Title>
-        <Subtitle>{t("verifySubtitle")}</Subtitle>
+        <Subtitle>
+          {t("verifySubtitle")} {isAdult ? "A" : null}
+        </Subtitle>
       </Text>
       <Logo>FJ</Logo>
       <HiddenInput value={hiddenInputValue} />
@@ -176,7 +178,7 @@ const initializeVerification = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-KEY": `AGEPROOFKEY`, // if token-based auth is required
+          "X-API-KEY": `AGEPROOFKEY`,
           Origin: "http://localhost:5173",
         },
       },
@@ -274,10 +276,17 @@ const loadWidget = () => {
     const visitedCookieId = getCookie(COOKIE_KEY_VISIT_ID);
     if (visitedCookieId) {
       cookieVerification = await verifyCookie(visitedCookieId);
+      if (!cookieVerification) return;
     } else {
       initVerification = await initializeVerification();
+      if (!initVerification) return;
+
+      createCookie(
+        COOKIE_KEY_VISIT_ID,
+        initVerification?.["ageproof-visit-cookie"],
+        COOKIE_AGE_SECONDS,
+      );
     }
-    if (!cookieVerification && !initVerification) return;
 
     // const cookieVerifyId = getOrCreateCookie(COOKIE_KEY_ID);
     // const cookieVerifyUuid = getOrCreateCookie(COOKIE_KEY_UUID);
@@ -298,6 +307,8 @@ const loadWidget = () => {
         }&verifyUuid=${verifyUuid}`}
         verifyId={verifyId}
         verifyUuid={verifyUuid}
+        isVerified={cookieVerification?.["ageproofcz-verify-status"]}
+        isAdult={cookieVerification?.["ageproofcz-verify-adult"]}
       />,
       targetDiv,
     );

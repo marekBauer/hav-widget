@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
-export const Container = styled.div<{
-  verified: boolean;
-}>`
+export const Container = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["verified"].includes(prop),
+})<{ verified: boolean }>`
   ${({ verified }) => css`
     display: flex;
     align-items: center;
@@ -56,6 +56,7 @@ export const HiddenInput = styled.input.attrs((props) => ({
   name: "ageproof-uuid",
   id: "ageproof-uuid",
   value: props.value,
+  onChange: (e) => e.preventDefault(),
 }))`
   resize: none;
   display: none;
