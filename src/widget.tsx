@@ -293,7 +293,7 @@ const loadWidget = () => {
 
     ReactDOM.render(
       <HardAgeVerification
-        redirectUrl={`${VITE_VERIFICATION_SERVER_URL}/verify?apiKey=${apiKey}&verifyId=${
+        redirectUrl={`${VITE_VERIFICATION_SERVER_URL}/verification/verify?apiKey=${apiKey}&verifyId=${
           verifyId
         }&verifyUuid=${verifyUuid}`}
         verifyId={verifyId}
