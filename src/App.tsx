@@ -2,7 +2,7 @@ import React from "react";
 
 import "./App.css";
 // Use this in DEV to test the component
-// import { HardAgeVerification } from "./widget";
+import { HardAgeVerification } from "./widget";
 
 function App() {
   return (
@@ -17,13 +17,13 @@ function App() {
           <input type="email" name="email" value="test@email.cz" />
         </label>
 
-        <div className="ageproof-cz" data-apikey="A3SVWCBN"></div>
+        {/* <div className="ageproof-cz" data-apikey="A3SVWCBN"></div> */}
         {/* Use this in DEV to test the component */}
-        {/* <HardAgeVerification
+        <HardAgeVerification
           redirectUrl="https://www.seznam.cz/"
           verifyId="1"
           verifyUuid="2"
-        /> */}
+        />
       </form>
     </>
   );
