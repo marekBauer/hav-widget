@@ -48,6 +48,7 @@ const TARGET_DIV_SEARCH_MAX_ATTEMPTS = Number(
 const SOCKET_AUTH_TOKEN = process.env.VITE_SOCKET_AUTH_TOKEN || "";
 const VITE_VERIFICATION_SERVER_URL =
   process.env.VITE_VERIFICATION_SERVER_URL || "";
+const VERIFICATION_API_KEY = process.env.VITE_VERIFICATION_API_KEY || "";
 
 interface HardAgeVerificationProps {
   redirectUrl: string;
@@ -177,7 +178,7 @@ const initializeVerification = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-KEY": `AGEPROOFKEY`,
+          "X-API-KEY": `${VERIFICATION_API_KEY}`,
           Origin: currentOrigin,
         },
       },
@@ -204,7 +205,7 @@ const verifyCookie = async (cookieID: string) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-API-KEY": `AGEPROOFKEY`,
+          "X-API-KEY": `${VERIFICATION_API_KEY}`,
           Origin: currentOrigin,
         },
       },

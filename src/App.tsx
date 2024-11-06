@@ -4,6 +4,8 @@ import "./App.css";
 // Use this in DEV to test the component
 // import { HardAgeVerification } from "./widget";
 
+const VERIFICATION_API_KEY = process.env.VITE_VERIFICATION_API_KEY || "";
+
 function App() {
   return (
     <>
@@ -17,7 +19,7 @@ function App() {
           <input type="email" name="email" value="test@email.cz" />
         </label>
 
-        <div className="ageproof-cz" data-apikey="AGEPROOFKEY"></div>
+        <div className="ageproof-cz" data-apikey={VERIFICATION_API_KEY}></div>
         {/* Use this in DEV to test the component */}
         {/* <HardAgeVerification
           redirectUrl="https://www.seznam.cz/"

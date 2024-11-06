@@ -15,6 +15,7 @@ export default defineConfig({
       "VITE_TARGET_DIV_SEARCH_MAX_ATTEMPTS",
       "VITE_SOCKET_AUTH_TOKEN",
       "VITE_VERIFICATION_SERVER_URL",
+      "VITE_VERIFICATION_API_KEY",
     ]),
   ],
 });
