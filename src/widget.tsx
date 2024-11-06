@@ -13,6 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import "../i18n";
 import { io, Socket } from "socket.io-client";
+import { Loader } from "./loader";
 
 interface VerificationConfirmedResponse {
   verifyId: string;
@@ -236,8 +237,9 @@ const loadWidget = () => {
       return;
     }
 
-    const apiKey = targetDiv.getAttribute("data-apikey") || "";
+    ReactDOM.render(<Loader />, targetDiv);
 
+    const apiKey = targetDiv.getAttribute("data-apikey") || "";
     if (!apiKey) {
       console.warn("API key not found");
       return;
