@@ -300,6 +300,8 @@ const loadWidget = () => {
       initVerification?.["ageproof-verify-uuid"] ||
       cookieVerification?.["ageproofcz-verify-uid"];
 
+    console.log(verifyId, verifyUuid);
+
     if (!verifyId || !verifyUuid) return;
 
     ReactDOM.render(
