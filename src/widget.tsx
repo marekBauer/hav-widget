@@ -32,7 +32,7 @@ interface VerifyCookieResponse {
   "ageproof-verify-uuid": string;
   "ageproof-visit-cookie": string;
   "ageproof-expiration-time": string;
-  "ageproof-verify-status": boolean;
+  "ageproof-verify-status": "new" | "verified";
   "ageproof-is-adult": boolean;
 }
 
@@ -54,8 +54,8 @@ interface HardAgeVerificationProps {
   verifyUuid: string;
   email?: string;
   phone?: string;
-  isVerified?: boolean;
-  isAdult?: boolean;
+  isVerified?: VerifyCookieResponse["ageproof-verify-status"];
+  isAdult?: VerifyCookieResponse["ageproof-is-adult"];
 }
 
 export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
@@ -67,7 +67,9 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [clientVerified, setClientVerified] = useState<boolean>(!!isVerified);
+  const [clientVerified, setClientVerified] = useState<boolean>(
+    isVerified === "verified",
+  );
   const [hiddenInputValue, setHiddenInputValue] = useState<string>("");
 
   const handleClick = () => {
