@@ -31,17 +31,15 @@ interface VerifyCookieResponse {
   "ageproofcz-verify-id": string;
   "ageproofcz-verify-uid": string;
   "ageproofcz-visit-cookie": string;
-  "ageproofcz-visit-time": string;
-  "ageproofcz-verify-time": string;
-  "ageproofcz-verify-method": string;
+  "ageproofcz-expiration-time": string;
   "ageproofcz-verify-status": boolean;
-  "ageproofcz-verify-adult": boolean;
+  "ageproofcz-is-adult": boolean;
 }
 
 // const COOKIE_KEY_ID = process.env.VITE_COOKIE_KEY_ID || "";
 // const COOKIE_KEY_UUID = process.env.VITE_COOKIE_KEY_UUID || "";
 const COOKIE_KEY_VISIT_ID = process.env.VITE_COOKIE_KEY_VISIT_ID || "";
-const COOKIE_AGE_SECONDS = Number(process.env.VITE_COOKIE_AGE_SECONDS);
+// const COOKIE_AGE_SECONDS = Number(process.env.VITE_COOKIE_AGE_SECONDS);
 const SOCKET_SERVER_URL = process.env.VITE_SOCKET_SERVER_URL || "";
 const TARGET_DIV_SEARCH_MAX_ATTEMPTS = Number(
   process.env.VITE_TARGET_DIV_SEARCH_MAX_ATTEMPTS,
@@ -80,7 +78,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   // useEffect(() => {
   //   const fetchData = async () => {
   //     await initializeVerification();
-  //     await verifyCookie("1df13426a8e9ef65b58b622aab3ad094-1730798576000");
+  //     await verifyCookie("4a361625e9e1be3f076bdb945f7423e4-1730883699000");
   //   };
 
   //   fetchData();
@@ -172,7 +170,6 @@ const initializeVerification = async () => {
     const currentOrigin = window.location.origin;
     const response = await fetch(
       `https://cors-anywhere.herokuapp.com/${VITE_VERIFICATION_SERVER_URL}/api/client/init`,
-
       {
         method: "POST",
         headers: {
@@ -281,10 +278,15 @@ const loadWidget = () => {
       initVerification = await initializeVerification();
       if (!initVerification) return;
 
+      const expirationTime =
+        (new Date(initVerification["ageproof-expiration-time"]).getTime() -
+          new Date().getTime()) /
+        1000;
+
       createCookie(
         COOKIE_KEY_VISIT_ID,
         initVerification?.["ageproof-visit-cookie"],
-        COOKIE_AGE_SECONDS,
+        expirationTime,
       );
     }
 
@@ -308,7 +310,7 @@ const loadWidget = () => {
         verifyId={verifyId}
         verifyUuid={verifyUuid}
         isVerified={cookieVerification?.["ageproofcz-verify-status"]}
-        isAdult={cookieVerification?.["ageproofcz-verify-adult"]}
+        isAdult={cookieVerification?.["ageproofcz-is-adult"]}
       />,
       targetDiv,
     );
