@@ -28,12 +28,12 @@ interface InitVerificationResponse {
 }
 
 interface VerifyCookieResponse {
-  "ageproofcz-verify-id": string;
-  "ageproofcz-verify-uuid": string;
-  "ageproofcz-visit-cookie": string;
-  "ageproofcz-expiration-time": string;
-  "ageproofcz-verify-status": boolean;
-  "ageproofcz-is-adult": boolean;
+  "ageproof-verify-id": string;
+  "ageproof-verify-uuid": string;
+  "ageproof-visit-cookie": string;
+  "ageproof-expiration-time": string;
+  "ageproof-verify-status": boolean;
+  "ageproof-is-adult": boolean;
 }
 
 // const COOKIE_KEY_ID = process.env.VITE_COOKIE_KEY_ID || "";
@@ -295,10 +295,10 @@ const loadWidget = () => {
 
     const verifyId =
       initVerification?.["ageproof-verify-id"] ||
-      cookieVerification?.["ageproofcz-verify-id"];
+      cookieVerification?.["ageproof-verify-id"];
     const verifyUuid =
       initVerification?.["ageproof-verify-uuid"] ||
-      cookieVerification?.["ageproofcz-verify-uuid"];
+      cookieVerification?.["ageproof-verify-uuid"];
 
     console.log(verifyId, verifyUuid);
 
@@ -311,8 +311,8 @@ const loadWidget = () => {
         }&verifyUuid=${verifyUuid}`}
         verifyId={verifyId}
         verifyUuid={verifyUuid}
-        isVerified={cookieVerification?.["ageproofcz-verify-status"]}
-        isAdult={cookieVerification?.["ageproofcz-is-adult"]}
+        isVerified={cookieVerification?.["ageproof-verify-status"]}
+        isAdult={cookieVerification?.["ageproof-is-adult"]}
       />,
       targetDiv,
     );
