@@ -29,7 +29,7 @@ interface InitVerificationResponse {
 
 interface VerifyCookieResponse {
   "ageproofcz-verify-id": string;
-  "ageproofcz-verify-uid": string;
+  "ageproofcz-verify-uuid": string;
   "ageproofcz-visit-cookie": string;
   "ageproofcz-expiration-time": string;
   "ageproofcz-verify-status": boolean;
@@ -298,7 +298,7 @@ const loadWidget = () => {
       cookieVerification?.["ageproofcz-verify-id"];
     const verifyUuid =
       initVerification?.["ageproof-verify-uuid"] ||
-      cookieVerification?.["ageproofcz-verify-uid"];
+      cookieVerification?.["ageproofcz-verify-uuid"];
 
     console.log(verifyId, verifyUuid);
 
