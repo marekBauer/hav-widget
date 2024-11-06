@@ -172,7 +172,7 @@ const initializeVerification = async () => {
   try {
     const currentOrigin = window.location.origin;
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/${VITE_VERIFICATION_SERVER_URL}/api/client/init`,
+      `${VITE_VERIFICATION_SERVER_URL}/api/client/init`,
       {
         method: "POST",
         headers: {
@@ -199,7 +199,7 @@ const verifyCookie = async (cookieID: string) => {
   try {
     const currentOrigin = window.location.origin;
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/${VITE_VERIFICATION_SERVER_URL}/api/client/verify-cookie?ageproof-visit-cookie=${cookieID}`,
+      `${VITE_VERIFICATION_SERVER_URL}/api/client/verify-cookie?ageproof-visit-cookie=${cookieID}`,
       {
         method: "GET",
         headers: {
