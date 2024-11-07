@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n";
 import { io, Socket } from "socket.io-client";
 import { Loader } from "./loader";
+import { createRoot } from "react-dom/client";
 
 interface VerificationConfirmedResponse {
   verifyId: string;
@@ -93,9 +94,9 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   //       1000;
   //     console.log(expirationTime);
   //     createCookie(
-  //       COOKIE_KEY_VISIT_ID,
+  //       COOKIE_KEY_VISIT_ID + "test",
   //       initVerification?.["ageproof-visit-cookie"],
-  //       expirationTime,
+  //       10,
   //     );
 
   //     await verifyCookie("4a361625e9e1be3f076bdb945f7423e4-1730883699000");
@@ -350,7 +351,8 @@ const loadWidget = () => {
 
     if (!verifyId || !verifyUuid) return;
 
-    ReactDOM.render(
+    const root = createRoot(targetDiv);
+    root.render(
       <HardAgeVerification
         redirectUrl={`${VITE_VERIFICATION_SERVER_URL}/verification/verify?apiKey=${apiKey}&verifyId=${
           verifyId
@@ -360,7 +362,6 @@ const loadWidget = () => {
         isVerified={cookieVerification?.["ageproof-verify-status"]}
         isAdult={cookieVerification?.["ageproof-is-adult"]}
       />,
-      targetDiv,
     );
   };
 
