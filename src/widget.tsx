@@ -121,7 +121,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
 
         if (verifyUuid === result.verifyUuid) {
           setClientVerified(true);
-          setClientIsAdult(result.isAdult);
+          setClientIsAdult(!!result.isAdult);
           setHiddenInputValue(result.verifyUuid);
         }
       },
@@ -133,7 +133,11 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   }, [verifyId, verifyUuid]);
 
   return (
-    <Container onClick={handleClick} verified={clientVerified}>
+    <Container
+      onClick={handleClick}
+      verified={clientVerified}
+      isAdult={clientIsAdult}
+    >
       <Checkbox
         onClick={(e) => e.preventDefault()}
         checked={clientVerified}

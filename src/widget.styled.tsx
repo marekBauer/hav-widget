@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["verified"].includes(prop),
-})<{ verified: boolean }>`
-  ${({ verified }) => css`
+  shouldForwardProp: (prop) => !["verified", "isAdult"].includes(prop),
+})<{ verified: boolean; isAdult?: boolean }>`
+  ${({ verified, isAdult }) => css`
     display: flex;
     align-items: center;
     border: 1px dashed black;
@@ -17,6 +17,10 @@ export const Container = styled.div.withConfig({
     ${verified &&
     css`
       background-color: #00ff00;
+    `}
+    ${isAdult === false &&
+    css`
+      background-color: rgb(255 77 77);
     `}
   `}
 `;
