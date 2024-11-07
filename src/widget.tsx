@@ -49,6 +49,7 @@ const SOCKET_AUTH_TOKEN = process.env.VITE_SOCKET_AUTH_TOKEN || "";
 const VITE_VERIFICATION_SERVER_URL =
   process.env.VITE_VERIFICATION_SERVER_URL || "";
 const VERIFICATION_API_KEY = process.env.VITE_VERIFICATION_API_KEY || "";
+const VERIFICATION_EXPIRED_CODE = 409;
 
 interface HardAgeVerificationProps {
   redirectUrl: string;
@@ -72,6 +73,9 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   const [clientVerified, setClientVerified] = useState<boolean>(
     isVerified === "verified",
   );
+  const [clientIsAdult, setClientIsAdult] = useState<boolean | undefined>(
+    isAdult,
+  );
   const [hiddenInputValue, setHiddenInputValue] = useState<string>("");
 
   const handleClick = () => {
@@ -81,7 +85,19 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
   };
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     await initializeVerification();
+  //     const initVerification = await initializeVerification();
+  //     if (!initVerification) return;
+  //     const expirationTime =
+  //       (new Date(initVerification?.["ageproof-expiration-time"]).getTime() -
+  //         new Date().getTime()) /
+  //       1000;
+  //     console.log(expirationTime);
+  //     createCookie(
+  //       COOKIE_KEY_VISIT_ID,
+  //       initVerification?.["ageproof-visit-cookie"],
+  //       expirationTime,
+  //     );
+
   //     await verifyCookie("4a361625e9e1be3f076bdb945f7423e4-1730883699000");
   //   };
 
@@ -105,6 +121,7 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
 
         if (verifyUuid === result.verifyUuid) {
           setClientVerified(true);
+          setClientIsAdult(result.isAdult);
           setHiddenInputValue(result.verifyUuid);
         }
       },
@@ -125,7 +142,9 @@ export const HardAgeVerification: React.FC<HardAgeVerificationProps> = ({
       <Text>
         <Title>{t("verifyTitle")}</Title>
         <Subtitle>
-          {t("verifySubtitle")} {isAdult ? "A" : null}
+          {t("verifySubtitle")}
+          {clientIsAdult === true && "A"}
+          {clientIsAdult === false && "NA"}
         </Subtitle>
       </Text>
       <Logo>FJ</Logo>
@@ -166,7 +185,7 @@ const getCookie = (name: string) => {
 };
 
 const createCookie = (name: string, cookieValue: string, maxAge: number) => {
-  document.cookie = `${name}=${cookieValue}; max-age=${maxAge}; path=/; samesite=none; secure=true`;
+  document.cookie = `${name}=${cookieValue}; max-age=${Math.round(maxAge)}; path=/; samesite=none; secure=true`;
 };
 
 const initializeVerification = async () => {
@@ -196,7 +215,15 @@ const initializeVerification = async () => {
   }
 };
 
-const verifyCookie = async (cookieID: string) => {
+const verifyCookie = async (
+  cookieID: string,
+): Promise<
+  | {
+      cookieVerification?: VerifyCookieResponse | undefined;
+      status: number;
+    }
+  | undefined
+> => {
   try {
     const currentOrigin = window.location.origin;
     const response = await fetch(
@@ -210,6 +237,10 @@ const verifyCookie = async (cookieID: string) => {
         },
       },
     );
+    console.log(response);
+    if (response.status === VERIFICATION_EXPIRED_CODE) {
+      return { status: response.status };
+    }
 
     if (!response.ok) {
       throw new Error(`Failed to verify: ${response.statusText}`);
@@ -218,7 +249,7 @@ const verifyCookie = async (cookieID: string) => {
     const result: VerifyCookieResponse = await response.json();
     console.log("Verification result from backend:", result);
 
-    return result;
+    return { cookieVerification: result, status: response.status };
   } catch (error) {
     console.error("Error during verification:", error);
   }
@@ -233,7 +264,8 @@ const loadWidget = () => {
     if (!targetDiv) {
       console.warn("Target div not found");
       if (initCount <= TARGET_DIV_SEARCH_MAX_ATTEMPTS) {
-        setTimeout(initializeWidget, 100);
+        //poresit load kdyz je pomaly net
+        setTimeout(initializeWidget, 500);
       }
       return;
     }
@@ -277,8 +309,13 @@ const loadWidget = () => {
 
     const visitedCookieId = getCookie(COOKIE_KEY_VISIT_ID);
     if (visitedCookieId) {
-      cookieVerification = await verifyCookie(visitedCookieId);
-      if (!cookieVerification) return;
+      const response = await verifyCookie(visitedCookieId);
+      if (response?.status === VERIFICATION_EXPIRED_CODE) {
+        initVerification = await initializeVerification();
+      } else {
+        cookieVerification = response?.cookieVerification;
+      }
+      if (!cookieVerification && !initVerification) return;
     } else {
       initVerification = await initializeVerification();
       if (!initVerification) return;
